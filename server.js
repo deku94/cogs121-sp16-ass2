@@ -43,7 +43,22 @@ app.get('/delphidata', function (req, res) {
   // for each gender. 
   // Display that data using D3 with gender on the x-axis and 
   // total respondents on the y-axis.
-  return { delphidata: "No data present." }
+  var conString = process.env.DATABASE_CONNECTION_URL;
+  var query = "SELECT gender as name,number_of_respondents as rating FROM cogs121_16_raw.cdph_smoking_prevalence_in_adults_1984_2013 WHERE year = 2003";
+  pg.connect(conString, function(err, client, done) {
+  if(err) {
+    return console.error('error fetching client from pool', err);
+  }
+  client.query(query, function(err, result) {
+    if(err) {
+      return console.error('error running query', err);
+    }
+    //console.log(result.rows);
+    //output: Tue Jan 15 2013 19:12:47 GMT-600 (CST)
+    res.json(result.rows);
+    client.end();
+  });
+});
 });
 
 
