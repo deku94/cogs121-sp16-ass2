@@ -33,7 +33,10 @@ app.set('port', process.env.PORT || 3000);
 app.get('/', function(req, res){
   res.render('index');
 });
+app.get('/ind', function(req, res){
+  res.sendFile(path.join(__dirname, '/views', 'index1.html'));
 
+});
 app.get('/delphidata', function (req, res) {
   // TODO
   // Connect to the DELPHI Database and return the proper information
